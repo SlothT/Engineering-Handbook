@@ -17,6 +17,7 @@ Engineering OS is a long-term, open-source learning system for software engineer
 
 - Python 3.10+ recommended
 - `pip`
+- Docker Desktop (or Docker Engine) for containerized local runs
 
 ### Setup
 
@@ -58,20 +59,45 @@ mkdocs build
 
 Output is written to `site/`.
 
-## Deployment (GitHub Pages)
+### Local development with Docker (Phase 2)
 
-1. Create a GitHub repository (for example `engineering-os`).
-2. Update `mkdocs.yml`: set `site_url` and `repo_url` to your repository.
-3. Push this project to GitHub.
-4. From the repository root, with `mkdocs-material` installed:
+Build and run the docs server in a container:
 
 ```bash
-mkdocs gh-deploy
+docker compose up --build
 ```
 
-This builds the site and pushes it to the `gh-pages` branch. Enable **GitHub Pages** in the repository settings to serve from `gh-pages` (root).
+Stop services:
 
-If your site is published at `https://<user>.github.io/<repo>/`, ensure `site_url` matches that path so internal links and assets resolve correctly.
+```bash
+docker compose down
+```
+
+The site is available at `http://localhost:8000`.
+
+## CI/CD pipeline (Phase 3)
+
+This repository uses GitHub Actions workflows:
+
+- `CI` (`.github/workflows/ci.yml`): runs on pull requests to `main` and validates docs build with strict mode.
+- `Deploy Docs` (`.github/workflows/deploy.yml`): runs only when a PR is merged into `main`, validates docs build with strict mode, then deploys to GitHub Pages (`gh-pages`).
+
+### Validate before opening a PR
+
+Run at least one of these local validations before pushing:
+
+```bash
+python -m mkdocs build --strict
+# or
+docker compose up --build
+```
+
+### Deployment behavior
+
+- PRs to `main`: CI must pass before merge.
+- Merge to `main`: deploy workflow first validates (`mkdocs build --strict`) and then publishes the site to GitHub Pages.
+- Ensure repo `Settings -> Pages` serves from the `gh-pages` branch.
+- Ensure `mkdocs.yml` values (`site_url`, `repo_url`) match your real GitHub repository.
 
 ## Project structure
 
@@ -83,6 +109,70 @@ If your site is published at `https://<user>.github.io/<repo>/`, ensure `site_ur
 ## Contributing
 
 Improvements to content, examples, and diagrams are welcome. Please keep pages consistent with the established learning template (overview, concepts, examples, interview questions, practice, resources).
+
+### Phase 1: Contributor workflow (PR-first)
+
+Use this workflow for all changes (including maintainers):
+
+1. Sync your local `main`:
+
+```bash
+git checkout main
+git pull origin main
+```
+
+2. Create a feature branch:
+
+```bash
+git checkout -b feature/<short-name>
+```
+
+3. Make changes and run local checks:
+
+```bash
+mkdocs build
+```
+
+4. Commit and push your branch:
+
+```bash
+git add .
+git commit -m "Describe your change"
+git push -u origin feature/<short-name>
+```
+
+5. Open a Pull Request to `main`.
+6. Wait for CI checks to pass and maintainer approval.
+7. Merge only after approval and green checks.
+
+### Production-ready collaboration rules
+
+- Protect the `main` branch: no direct push, PR required.
+- Require at least one approval for every PR.
+- Require status checks (lint/test/build) before merge.
+- Use small, focused PRs for easier review and safer rollback.
+- Keep commit messages clear and scope-limited.
+- Update documentation when behavior, setup, or workflow changes.
+
+### Phase 2 and Phase 3 rollout (Docker + CI)
+
+The next two milestones are:
+
+- **Phase 2 (Docker):** standard local runtime and reproducible setup.
+- **Phase 3 (CI):** automated validation for each PR (lint/test/build).
+
+Recommended validation commands while implementing these phases:
+
+```bash
+# docs sanity
+mkdocs build
+
+# when Docker is added in Phase 2
+docker compose up --build
+docker compose down
+```
+
+After CI is added in Phase 3, every PR should pass the pipeline before merge.
 
 ## License
 
