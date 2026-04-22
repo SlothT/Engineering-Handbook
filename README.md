@@ -1,179 +1,251 @@
 # Engineering Handbook
 
-**The Open Engineering Study System**
+**Engineering OS — The Open Engineering Study System**
 
-Engineering OS is a long-term, open-source learning system for software engineers and computer science students. It combines structured technical documentation, learning roadmaps, and interview preparation in a single MkDocs site styled for clarity and depth—similar in spirit to professional engineering handbooks.
+Engineering OS is an open-source learning system designed for software engineers and computer science students.
+
+It combines structured engineering documentation, diagrams, learning roadmaps, and interview preparation into a single knowledge system built using MkDocs.
+
+The goal is to create a **long-term engineering reference similar to professional engineering handbooks**, but fully open, searchable, and continuously improving.
+
+---
 
 ## Features
 
-- **MkDocs** with **Material for MkDocs** for navigation, search, and dark mode
-- **Markdown** content with **Mermaid** diagrams, **admonitions**, **tabs**, and **collapsible** sections
-- **Custom CSS** for banners, cards, and concept boxes
-- **GitHub Pages** deployment via `mkdocs gh-deploy`
+- Structured **Computer Science documentation**
+- **MkDocs + Material for MkDocs** documentation system
+- Interactive **Mermaid diagrams**
+- Engineering concept explanations with examples
+- Searchable documentation
+- Dark mode support
+- Interview preparation resources
+- Beginner-friendly contribution workflow
 
-## Local development
+---
+
+## Tech Stack
+
+- MkDocs
+- Material for MkDocs
+- Markdown
+- Mermaid diagrams
+- GitHub Pages
+- Docker
+
+---
+
+## Quick Start
+
+Run the documentation site locally using Docker:
+
+```bash
+docker compose up --build
+```
+
+The site will be available at:
+
+```
+http://localhost:8000
+```
+
+---
+
+## Local Development
+
+Engineering OS can be run locally using **Docker (recommended)** or **Python**.
+
+---
+
+## Run with Docker (Recommended)
+
+Using Docker ensures a consistent environment and avoids dependency conflicts.
 
 ### Prerequisites
 
-- Python 3.10+ recommended
-- `pip`
-- Docker Desktop (or Docker Engine) for containerized local runs
+- Docker Desktop or Docker Engine
 
-### Setup
+### Start the documentation server
 
 ```bash
-cd engineering-os
+docker compose up --build
+```
+
+The documentation will be available at:
+
+```
+http://localhost:8000
+```
+
+### Stop the server
+
+```bash
+docker compose down
+```
+
+---
+
+## Run with Python (Alternative)
+
+If you prefer running the project without Docker.
+
+### Prerequisites
+
+- Python 3.10+
+- pip
+
+### Setup virtual environment
+
+```bash
 python -m venv .venv
 ```
 
-Activate the virtual environment:
+Activate the environment:
 
-- **Windows (PowerShell):** `.venv\Scripts\Activate.ps1`
-- **macOS/Linux:** `source .venv/bin/activate`
+**Windows (PowerShell)**
 
-Install dependencies:
+```bash
+.venv\Scripts\Activate.ps1
+```
+
+**macOS / Linux**
+
+```bash
+source .venv/bin/activate
+```
+
+### Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Serve locally
+### Run the documentation server
 
 ```bash
 mkdocs serve
 ```
 
-If `mkdocs` is not on your `PATH` (common on Windows), use:
+If `mkdocs` is not available in your PATH:
 
 ```bash
 python -m mkdocs serve
 ```
 
-Open the URL shown in the terminal. Because `mkdocs.yml` sets `site_url` for a GitHub **project** page (`…/engineering-os/`), the dev server may serve under that path (for example `http://127.0.0.1:8000/engineering-os/`). Adjust `site_url` after you know your real GitHub username and repository name.
+Open the URL shown in the terminal.
 
-### Build static site
+### Build the static site
 
 ```bash
 mkdocs build
 ```
 
-Output is written to `site/`.
+The generated site will be inside the `site/` directory.
 
-### Local development with Docker (Phase 2)
+---
 
-Build and run the docs server in a container:
+## Project Structure
 
-```bash
-docker compose up --build
+```
+mkdocs.yml              # Site configuration
+docs/                   # Documentation content
+docs/stylesheets/       # Custom CSS
+docs/diagrams/          # Diagram assets
+.github/workflows/      # CI/CD pipelines
+docker-compose.yml      # Docker setup
 ```
 
-Stop services:
+---
 
-```bash
-docker compose down
-```
+## CI / Deployment
 
-The site is available at `http://localhost:8000`.
+The project uses **GitHub Actions** to automatically build and deploy the documentation.
 
-## CI/CD pipeline (Phase 3)
+Workflow overview:
 
-This repository uses GitHub Actions workflows:
+- Pull Requests trigger a documentation build check
+- If the build succeeds, the PR can be merged
+- Merges to `main` automatically deploy the documentation to **GitHub Pages**
 
-- `CI` (`.github/workflows/ci.yml`): runs on pull requests to `main` and validates docs build with strict mode.
-- `Deploy Docs` (`.github/workflows/deploy.yml`): runs only when a PR is merged into `main`, validates docs build with strict mode, then deploys to GitHub Pages (`gh-pages`).
-
-### Validate before opening a PR
-
-Run at least one of these local validations before pushing:
-
-```bash
-python -m mkdocs build --strict
-# or
-docker compose up --build
-```
-
-### Deployment behavior
-
-- PRs to `main`: CI must pass before merge.
-- Merge to `main`: deploy workflow first validates (`mkdocs build --strict`) and then publishes the site to GitHub Pages.
-- Ensure repo `Settings -> Pages` serves from the `gh-pages` branch.
-- Ensure `mkdocs.yml` values (`site_url`, `repo_url`) match your real GitHub repository.
-
-## Project structure
-
-- `mkdocs.yml` — site configuration, theme, extensions, navigation
-- `docs/` — all Markdown content, styles, and assets
-- `docs/stylesheets/extra.css` — custom UI components
-- `docs/diagrams/` — static diagram assets referenced from pages
+---
 
 ## Contributing
 
-Improvements to content, examples, and diagrams are welcome. Please keep pages consistent with the established learning template (overview, concepts, examples, interview questions, practice, resources).
+Contributions are welcome.
 
-### Phase 1: Contributor workflow (PR-first)
+Engineering OS is **actively being developed and improved**, and contributions from the community are encouraged.
 
-Use this workflow for all changes (including maintainers):
+You can contribute by:
 
-1. Sync your local `main`:
+- adding new engineering topics
+- improving explanations
+- adding diagrams
+- fixing typos
+- improving examples
+
+Even small improvements are appreciated.
+
+---
+
+## Beginner Contribution Workflow
+
+If you are new to Git or open source, follow these steps.
+
+### 1. Fork the repository
+
+Click **Fork** on GitHub to create your own copy.
+
+### 2. Clone your fork
+
+```bash
+git clone https://github.com/YOUR_USERNAME/engineering-os.git
+cd engineering-os
+```
+
+### 3. Create a new branch
 
 ```bash
 git checkout main
 git pull origin main
-```
-
-2. Create a feature branch:
-
-```bash
 git checkout -b feature/<short-name>
 ```
 
-3. Make changes and run local checks:
+### 4. Make your changes
 
-```bash
-mkdocs build
-```
+Edit documentation, add explanations, or improve examples.
 
-4. Commit and push your branch:
+### 5. Commit your changes
 
 ```bash
 git add .
 git commit -m "Describe your change"
-git push -u origin feature/<short-name>
 ```
 
-5. Open a Pull Request to `main`.
-6. Wait for CI checks to pass and maintainer approval.
-7. Merge only after approval and green checks.
-
-### Production-ready collaboration rules
-
-- Protect the `main` branch: no direct push, PR required.
-- Require at least one approval for every PR.
-- Require status checks (lint/test/build) before merge.
-- Use small, focused PRs for easier review and safer rollback.
-- Keep commit messages clear and scope-limited.
-- Update documentation when behavior, setup, or workflow changes.
-
-### Phase 2 and Phase 3 rollout (Docker + CI)
-
-The next two milestones are:
-
-- **Phase 2 (Docker):** standard local runtime and reproducible setup.
-- **Phase 3 (CI):** automated validation for each PR (lint/test/build).
-
-Recommended validation commands while implementing these phases:
+### 6. Push your branch
 
 ```bash
-# docs sanity
-mkdocs build
-
-# when Docker is added in Phase 2
-docker compose up --build
-docker compose down
+git push origin feature/<short-name>
 ```
 
-After CI is added in Phase 3, every PR should pass the pipeline before merge.
+### 7. Open a Pull Request
+
+Go to GitHub and open a **Pull Request** from your branch to `main`.
+
+After review, the changes can be merged into the project.
+
+---
+
+## Project Status
+
+Engineering OS is an **actively evolving project**.
+
+The documentation structure, topics, and learning resources are continuously improving as the project grows.
+
+Feedback, ideas, and contributions are always welcome.
+
+---
 
 ## License
 
-Specify your preferred open-source license (for example MIT) when you publish the repository.
+This project is licensed under the **MIT License**.
+
+See the `LICENSE` file for details.
