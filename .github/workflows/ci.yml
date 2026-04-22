@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Validate repository configuration
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          cfg = Path("mkdocs.yml").read_text(encoding="utf-8")
+          placeholders = [
+              "YOUR_GITHUB_USERNAME",
+              "https://YOUR_GITHUB_USERNAME.github.io/engineering-os/",
+          ]
+          found = [p for p in placeholders if p in cfg]
+          if found:
+              raise SystemExit(
+                  "Replace placeholder values in mkdocs.yml before merging:\n- "
+                  + "\n- ".join(found)
+              )
+          PY
+
+      - name: Build docs (strict)
+        run: python -m mkdocs build --strict

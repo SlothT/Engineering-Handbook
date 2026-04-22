@@ -1,0 +1,9 @@
+services:
+  docs:
+    build: .
+    container_name: engineering-os-docs
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: python -m mkdocs serve --dev-addr=0.0.0.0:8000
