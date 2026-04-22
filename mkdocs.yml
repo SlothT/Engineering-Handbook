@@ -1,8 +1,8 @@
 site_name: Engineering Handbook
 site_description: The Open Engineering Study System — a structured handbook for software engineers and CS students.
 site_author: Engineering OS Contributors
-site_url: https://YOUR_GITHUB_USERNAME.github.io/engineering-os/
-repo_url: https://github.com/YOUR_GITHUB_USERNAME/engineering-os
+site_url: https://slotht.github.io/Engineering-Handbook/
+repo_url: https://github.com/SlothT/Engineering-Handbook
 repo_name: engineering-os
 edit_uri: edit/main/docs/
 
