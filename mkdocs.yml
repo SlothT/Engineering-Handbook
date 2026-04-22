@@ -1,0 +1,137 @@
+site_name: Engineering Handbook
+site_description: The Open Engineering Study System — a structured handbook for software engineers and CS students.
+site_author: Engineering OS Contributors
+site_url: https://YOUR_GITHUB_USERNAME.github.io/engineering-os/
+repo_url: https://github.com/YOUR_GITHUB_USERNAME/engineering-os
+repo_name: engineering-os
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: en
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_div_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+  - attr_list
+  - md_in_html
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - https://unpkg.com/mermaid@10/dist/mermaid.min.js
+  - javascripts/mermaid-init.js
+
+nav:
+  - Home: index.md
+  - Learning Paths:
+      - Backend Engineer Roadmap: learning_paths/backend_engineer.md
+      - System Design Engineer Roadmap: learning_paths/system_design_engineer.md
+      - AI Engineer Roadmap: learning_paths/ai_engineer.md
+  - Computer Science:
+      - DSA:
+          - Introduction: dsa/introduction.md
+          - Arrays: dsa/arrays.md
+          - Strings: dsa/strings.md
+          - Linked Lists: dsa/linked_lists.md
+          - Stacks and Queues: dsa/stacks_queues.md
+          - Trees: dsa/trees.md
+          - Graphs: dsa/graphs.md
+          - Dynamic Programming: dsa/dynamic_programming.md
+  - Databases:
+      - Introduction: databases/introduction.md
+      - SQL Basics: databases/sql_basics.md
+      - Joins: databases/joins.md
+      - Indexing: databases/indexing.md
+      - Transactions: databases/transactions.md
+      - Query Optimization: databases/query_optimization.md
+      - Scaling Databases: databases/scaling_databases.md
+  - Networking:
+      - Introduction: networking/introduction.md
+      - OSI Model: networking/osi_model.md
+      - TCP and UDP: networking/tcp_udp.md
+      - HTTP and HTTPS: networking/http_https.md
+      - DNS: networking/dns.md
+      - Load Balancing: networking/load_balancing.md
+      - CDN: networking/cdn.md
+  - Backend Engineering:
+      - Introduction: backend_engineering/introduction.md
+      - REST API Design: backend_engineering/rest_api_design.md
+      - Authentication: backend_engineering/authentication.md
+      - Microservices: backend_engineering/microservices.md
+      - Caching: backend_engineering/caching.md
+      - Background Jobs: backend_engineering/background_jobs.md
+      - API Scalability: backend_engineering/api_scalability.md
+  - System Design:
+      - Fundamentals: system_design/fundamentals.md
+      - Scalability: system_design/scalability.md
+      - Load Balancers: system_design/load_balancers.md
+      - Caching: system_design/caching.md
+      - Database Scaling: system_design/database_scaling.md
+      - Message Queues: system_design/message_queues.md
+      - Distributed Systems: system_design/distributed_systems.md
+  - AI Systems:
+      - Introduction: ai_systems/introduction.md
+      - LLM Basics: ai_systems/llm_basics.md
+      - Embeddings: ai_systems/embeddings.md
+      - Vector Databases: ai_systems/vector_databases.md
+      - RAG Architecture: ai_systems/rag_architecture.md
+      - Prompt Engineering: ai_systems/prompt_engineering.md
+      - Production LLM Systems: ai_systems/production_llm_systems.md
+  - Interview Preparation:
+      - Resume Deep Dive: interview/resume_deep_dive.md
+      - Behavioral Interviews: interview/behavioral_interviews.md
+  - Career:
+      - Salary Structures: career/salary_structures.md
+      - Negotiation: career/negotiation.md
+      - ESOPs: career/esops.md
+      - Financial Literacy: career/financial_literacy.md
+  - Resources:
+      - Books: resources/books.md
+      - Blogs: resources/blogs.md
+      - Courses: resources/courses.md
+      - YouTube: resources/youtube.md
+
+copyright: Copyright &copy; Engineering OS contributors
